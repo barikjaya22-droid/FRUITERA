@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FRUITERA - From Fruit Waste to Liquid Fertilizer</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#1b4d3e', // Forest Green
+                            sage: '#8fbc8f',
+                            cream: '#f4f7f4'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f4f7f4;
+            font-family: 'Inter', sans-serif;
+            color: #1a202c;
+            padding-bottom: 70px; /* Space for mobile nav */
+        }
+        @media (min-width: 768px) {
+            body {
+                padding-bottom: 0;
+            }
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .nav-item.active {
+            color: #16a34a;
+            border-bottom: 2px solid #16a34a;
+        }
+        .mobile-nav-item.active {
+            color: #16a34a;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- TOP HEADER -->
+    <header class="bg-white border-b border-emerald-100 sticky top-0 z-40 shadow-sm">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+                <div class="w-10 h-10 rounded-full bg-brand-900 flex items-center justify-center text-emerald-400 text-xl font-bold">
+                    <i class="fa-solid fa-seedling"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-brand-900 tracking-tight">FRUITERA</h1>
+                    <p class="text-xs text-gray-500 hidden sm:block">Fruit Waste to Liquid Organic Fertilizer</p>
+                </div>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex space-x-6 font-medium text-sm text-gray-600">
+                <button onclick="switchTab('home')" id="desk-tab-home" class="nav-item py-2 px-1 hover:text-brand-600 transition active">Home</button>
+                <button onclick="switchTab('waste-guide')" id="desk-tab-waste-guide" class="nav-item py-2 px-1 hover:text-brand-600 transition">Fruit Waste Guide</button>
+                <button onclick="switchTab('process-usage')" id="desk-tab-process-usage" class="nav-item py-2 px-1 hover:text-brand-600 transition">Process & Usage</button>
+                <button onclick="switchTab('tracker')" id="desk-tab-tracker" class="nav-item py-2 px-1 hover:text-brand-600 transition">Growth Tracker</button>
+                <button onclick="switchTab('profile')" id="desk-tab-profile" class="nav-item py-2 px-1 hover:text-brand-600 transition flex items-center space-x-2">
+                    <i class="fa-regular fa-user"></i>
+                    <span id="desk-account-label">Create Account</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="max-w-5xl mx-auto px-4 py-6 flex-grow w-full">
+
+        <!-- ================= HOME TAB ================= -->
+        <section id="tab-home" class="tab-content active space-y-8">
+            <!-- Hero Banner -->
+            <div class="bg-gradient-to-r from-brand-900 to-emerald-800 rounded-2xl p-6 sm:p-10 text-white shadow-lg relative overflow-hidden">
+                <div class="max-w-xl space-y-4 relative z-10">
+                    <span class="bg-emerald-500/30 text-emerald-200 text-xs font-semibold px-3 py-1 rounded-full border border-emerald-400/30">
+                        Eco-Friendly Agriculture
+                    </span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold leading-tight">Turn Organic Fruit Waste Into Pure Plant Nutrition</h2>
+                    <p class="text-emerald-100 text-sm sm:text-base leading-relaxed">
+                        Transform peels from Watermelon, Melon, and Papaya into premium Liquid Organic Fertilizer (LOF) and compost to boost plant vitality sustainably.
+                    </p>
+                    <div class="pt-2 flex flex-wrap gap-3">
+                        <button onclick="switchTab('process-usage')" class="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-5 py-2.5 rounded-xl shadow transition flex items-center space-x-2">
+                            <span>How to Make LOF</span>
+                            <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </button>
+                        <button onclick="switchTab('tracker')" class="bg-white/10 hover:bg-white/20 text-white font-semibold px-5 py-2.5 rounded-xl backdrop-blur transition">
+                            Track Your Garden
+                        </button>
+                    </div>
+                </div>
+                <i class="fa-solid fa-leaf absolute right-[-20px] bottom-[-20px] text-emerald-700/30 text-9xl pointer-events-none"></i>
+            </div>
+
+            <!-- Quick Action Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div onclick="switchTab('waste-guide')" class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition cursor-pointer group">
+                    <div class="w-12 h-12 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-apple-whole"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 text-lg mb-1">Fruit Waste Benefits</h3>
+                    <p class="text-sm text-gray-600">Discover the macro and micronutrients inside Watermelon, Melon, and Papaya peels.</p>
+                </div>
+
+                <div onclick="switchTab('process-usage')" class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition cursor-pointer group">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-flask"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 text-lg mb-1">Production & Usage</h3>
+                    <p class="text-sm text-gray-600">Step-by-step anaerobic fermentation guide and dosage recommendations per crop type.</p>
+                </div>
+
+                <div onclick="switchTab('tracker')" class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition cursor-pointer group">
+                    <div class="w-12 h-12 rounded-xl bg-teal-100 text-teal-600 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 text-lg mb-1">Growth Tracker</h3>
+                    <p class="text-sm text-gray-600">Log plant growth parameters (height, dates) and evaluate fertilizer performance over time.</p>
+                </div>
+            </div>
+
+            <!-- Impact Highlights -->
+            <div class="bg-brand-50 border border-brand-200 rounded-2xl p-6">
+                <h3 class="font-bold text-brand-900 text-xl mb-3 flex items-center">
+                    <i class="fa-solid fa-earth-americas text-emerald-600 mr-2"></i> Why Choose Fruitera LOF?
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm text-gray-700 mt-4">
+                    <div class="bg-white p-4 rounded-xl border border-brand-100">
+                        <span class="font-semibold text-brand-900 block mb-1">♻️ Circular Economy</span>
+                        Diverts organic fruit waste from municipal landfills, significantly reducing localized methane emissions.
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-brand-100">
+                        <span class="font-semibold text-brand-900 block mb-1">🌱 Soil Microflora Booster</span>
+                        Enhances beneficial soil microbial activity while maintaining optimal soil moisture levels naturally.
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-brand-100">
+                        <span class="font-semibold text-brand-900 block mb-1">💧 Cost-Effective & Organic</span>
+                        Provides 100% eco-friendly nutrients without chemical residues at virtually zero production cost.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= FRUIT WASTE GUIDE TAB ================= -->
+        <section id="tab-waste-guide" class="tab-content space-y-6">
+            <div>
+                <h2 class="text-2xl font-bold text-brand-900">Fruit Waste Nutritional Guide</h2>
+                <p class="text-sm text-gray-600">Understanding the core biochemical compounds present in common organic fruit waste.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Watermelon Skin -->
+                <div class="bg-white rounded-2xl border border-red-100 shadow-sm overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <div class="bg-red-500 text-white px-5 py-4 flex items-center justify-between">
+                            <h3 class="font-bold text-lg">Watermelon Peel</h3>
+                            <i class="fa-solid fa-water text-2xl opacity-80"></i>
+                        </div>
+                        <div class="p-5 space-y-3 text-sm text-gray-700">
+                            <div>
+                                <strong class="text-brand-900 block text-xs uppercase tracking-wider text-gray-500">Key Nutrients:</strong>
+                                High Water Content, Organic Fiber, Citrulline, Micro-elements.
+                            </div>
+                            <div>
+                                <strong class="text-brand-900 block text-xs uppercase tracking-wider text-gray-500">Soil Benefits:</strong>
+                                Retains moisture, prevents root drying, and fuels microflora proliferation in the rhizosphere.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5 pt-0">
+                        <span class="inline-block w-full text-center bg-red-50 text-red-700 font-semibold text-xs py-2 rounded-lg border border-red-100">
+                            Ideal for Hydration & Microbes
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Melon Skin -->
+                <div class="bg-white rounded-2xl border border-yellow-100 shadow-sm overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <div class="bg-amber-500 text-white px-5 py-4 flex items-center justify-between">
+                            <h3 class="font-bold text-lg">Melon Peel</h3>
+                            <i class="fa-solid fa-lemon text-2xl opacity-80"></i>
+                        </div>
+                        <div class="p-5 space-y-3 text-sm text-gray-700">
+                            <div>
+                                <strong class="text-brand-900 block text-xs uppercase tracking-wider text-gray-500">Key Nutrients:</strong>
+                                Abundant in Potassium (K), Phosphorus (P), and Essential Minerals.
+                            </div>
+                            <div>
+                                <strong class="text-brand-900 block text-xs uppercase tracking-wider text-gray-500">Soil Benefits:</strong>
+                                Stimulates flowering, enhances crop flavor/sweetness, and improves overall disease tolerance.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5 pt-0">
+                        <span class="inline-block w-full text-center bg-amber-50 text-amber-700 font-semibold text-xs py-2 rounded-lg border border-amber-100">
+                            Ideal for Flowering & Fruiting
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Papaya Skin -->
+                <div class="bg-white rounded-2xl border border-orange-100 shadow-sm overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <div class="bg-orange-500 text-white px-5 py-4 flex items-center justify-between">
+                            <h3 class="font-bold text-lg">Papaya Peel</h3>
+                            <i class="fa-solid fa-plant-wilt text-2xl opacity-80"></i>
+                        </div>
+                        <div class="p-5 space-y-3 text-sm text-gray-700">
+                            <div>
+                                <strong class="text-brand-900 block text-xs uppercase tracking-wider text-gray-500">Key Nutrients:</strong>
+                                Papain Enzymes, Nitrogen (N) Compounds, Vitamins A & C.
+                            </div>
+                            <div>
+                                <strong class="text-brand-900 block text-xs uppercase tracking-wider text-gray-500">Soil Benefits:</strong>
+                                Accelerates vegetative tissue growth, triggers rapid root branching, and breaks down organic matter.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5 pt-0">
+                        <span class="inline-block w-full text-center bg-orange-50 text-orange-700 font-semibold text-xs py-2 rounded-lg border border-orange-100">
+                            Ideal for Foliage & Root Expansion
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= PROCESS & USAGE TAB ================= -->
+        <section id="tab-process-usage" class="tab-content space-y-8">
+            <!-- Header -->
+            <div>
+                <h2 class="text-2xl font-bold text-brand-900">LOF & Compost Guide</h2>
+                <p class="text-sm text-gray-600">Detailed instructions on manufacturing and applying Fruitera Organic Products.</p>
+            </div>
+
+            <!-- SECTION A: MAKING PROCESS -->
+            <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm space-y-6">
+                <div class="border-b pb-4 flex items-center justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold text-brand-900">1. Making Process (LOF & Solid Compost)</h3>
+                        <p class="text-xs text-gray-500">Step-by-step anaerobic extraction from raw fruit waste.</p>
+                    </div>
+                    <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full">6 Steps</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Step 1 -->
+                    <div class="flex space-x-4 p-4 rounded-xl bg-gray-50 border border-gray-100">
+                        <div class="w-10 h-10 rounded-full bg-brand-900 text-white font-bold flex items-center justify-center shrink-0">1</div>
+                        <div class="space-y-1">
+                            <h4 class="font-bold text-gray-800 text-base">Collection & Sorting</h4>
+                            <p class="text-xs text-gray-600 leading-relaxed">
+                                Gather fresh peels of Watermelon, Melon, and Papaya. Thoroughly separate non-organic items (plastics, stickers, synthetic ties) to avoid chemical contamination.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="flex space-x-4 p-4 rounded-xl bg-gray-50 border border-gray-100">
+                        <div class="w-10 h-10 rounded-full bg-brand-900 text-white font-bold flex items-center justify-center shrink-0">2</div>
+                        <div class="space-y-1">
+                            <h4 class="font-bold text-gray-800 text-base">Washing & Fine Chopping</h4>
+                            <p class="text-xs text-gray-600 leading-relaxed">
+                                Rinse fruit peels to remove dirt. Slice them finely into <strong>1-2 cm pieces</strong>. Smaller surface areas significantly accelerate microbial decomposition.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="flex space-x-4 p-4 rounded-xl bg-gray-50 border border-gray-100">
+                        <div class="w-10 h-10 rounded-full bg-brand-900 text-white font-bold flex items-center justify-center shrink-0">3</div>
+                        <div class="space-y-1">
+                            <h4 class="font-bold text-gray-800 text-base">Bio-Activator Preparation</h4>
+                            <p class="text-xs text-gray-600 leading-relaxed">
+                                Mix 1 Liter of clean water with 20ml EM4 (Effective Microorganisms) and 20ml brown sugar solution / molasses as bacterial food to trigger anaerobic fermentation.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="flex space-x-4 p-4 rounded-xl bg-gray-50 border border-gray-100">
+                        <div class="w-10 h-10 rounded-full bg-brand-900 text-white font-bold flex items-center justify-center shrink-0">4</div>
+                        <div class="space-y-1">
+                            <h4 class="font-bold text-gray-800 text-base">Airtight Fermentation</h4>
+                            <p class="text-xs text-gray-600 leading-relaxed">
+                                Seal chopped peels and bio-activator in an airtight container for <strong>14-21 days</strong>. Briefly open the lid every 2 days to release accumulated bio-gas.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 5 -->
+                    <div class="flex space-x-4 p-4 rounded-xl bg-emerald-50 border border-emerald-100">
+                        <div class="w-10 h-10 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center shrink-0">5</div>
+                        <div class="space-y-1">
+                            <h4 class="font-bold text-emerald-950 text-base">Liquid Extraction (LOF)</h4>
+                            <p class="text-xs text-emerald-900 leading-relaxed">
+                                Filter the fermented liquid through a fine mesh cloth or sieve. The harvested clear liquid is your highly concentrated <strong>Fruitera Liquid Organic Fertilizer</strong>.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 6 -->
+                    <div class="flex space-x-4 p-4 rounded-xl bg-emerald-50 border border-emerald-100">
+                        <div class="w-10 h-10 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center shrink-0">6</div>
+                        <div class="space-y-1">
+                            <h4 class="font-bold text-emerald-950 text-base">Solid Composting</h4>
+                            <p class="text-xs text-emerald-900 leading-relaxed">
+                                Do not discard the solid pulp residue! Mix remaining organic solid residue with dry leaves and garden soil (1:2 ratio) to create nutrient-rich <strong>Fruitera Solid Compost</strong>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION B: APPLICATION METHOD & USAGE -->
+            <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm space-y-6">
+                <div class="border-b pb-4">
+                    <h3 class="text-xl font-bold text-brand-900">2. Application Method & Dosage Guide</h3>
+                    <p class="text-xs text-gray-500">Dilution standards, target crops, and optimal scheduling.</p>
+                </div>
+
+                <!-- Dilution Rule Banner -->
+                <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-start space-x-3">
+                    <i class="fa-solid fa-scale-balanced text-amber-600 text-xl mt-0.5"></i>
+                    <div class="text-sm">
+                        <span class="font-bold text-amber-900">Golden Dilution Ratio: 1 : 10</span>
+                        <p class="text-amber-800 text-xs mt-0.5">
+                            Mix <strong>1 part Fruitera LOF</strong> with <strong>10 parts clean water</strong> (e.g., 100 ml LOF to 1 Liter water). Never apply undiluted concentrated LOF directly onto roots or foliage.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Application Methods -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="p-4 border rounded-xl bg-gray-50">
+                        <h4 class="font-bold text-gray-800 text-sm mb-1"><i class="fa-solid fa-faucet-drip text-emerald-600 mr-1.5"></i> Direct Soil Drenching</h4>
+                        <p class="text-xs text-gray-600">Pour diluted solution near the root zone on moist soil. Ideal for nutrient absorption by primary roots.</p>
+                    </div>
+                    <div class="p-4 border rounded-xl bg-gray-50">
+                        <h4 class="font-bold text-gray-800 text-sm mb-1"><i class="fa-solid fa-spray-can text-teal-600 mr-1.5"></i> Foliar Spraying</h4>
+                        <p class="text-xs text-gray-600">Spray fine mist on undersides of leaves where stomata are active. Avoid spraying in peak sunlight hours.</p>
+                    </div>
+                </div>
+
+                <!-- Plant Specific Dosages Table -->
+                <div>
+                    <h4 class="font-bold text-gray-800 text-sm mb-3">Crop Specific Dosage Guidelines:</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="bg-brand-900 text-white">
+                                    <th class="p-3 rounded-tl-lg">Plant Category</th>
+                                    <th class="p-3">Examples</th>
+                                    <th class="p-3">Diluted Dosage per Plant</th>
+                                    <th class="p-3 rounded-tr-lg">Frequency</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 border-b border-l border-r">
+                                <tr>
+                                    <td class="p-3 font-semibold text-gray-800">Ornamental Plants</td>
+                                    <td class="p-3 text-gray-600">Monstera, Roses, Ferns</td>
+                                    <td class="p-3 text-emerald-700 font-bold">100 - 150 ml</td>
+                                    <td class="p-3 text-gray-600">Every 1 - 2 weeks</td>
+                                </tr>
+                                <tr class="bg-gray-50/50">
+                                    <td class="p-3 font-semibold text-gray-800">Leafy Vegetables</td>
+                                    <td class="p-3 text-gray-600">Lettuce, Spinach, Kale</td>
+                                    <td class="p-3 text-emerald-700 font-bold">150 - 200 ml</td>
+                                    <td class="p-3 text-gray-600">Every 7 - 10 days</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-gray-800">Fruiting Crops</td>
+                                    <td class="p-3 text-gray-600">Chili, Tomato, Cucumber</td>
+                                    <td class="p-3 text-emerald-700 font-bold">250 - 300 ml</td>
+                                    <td class="p-3 text-gray-600">Every 5 - 7 days (Flowering)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Optimal Timing & Tips -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs pt-2">
+                    <div class="p-3 bg-blue-50 text-blue-900 rounded-xl border border-blue-100 flex items-start space-x-2">
+                        <i class="fa-solid fa-clock text-blue-600 text-sm mt-0.5"></i>
+                        <div>
+                            <strong>Recommended Application Hours:</strong><br>
+                            Early morning (6:00 AM - 9:00 AM) or late afternoon (4:00 PM - 6:00 PM) to avoid leaf burn and rapid UV evaporation.
+                        </div>
+                    </div>
+                    <div class="p-3 bg-emerald-50 text-emerald-900 rounded-xl border border-emerald-100 flex items-start space-x-2">
+                        <i class="fa-solid fa-lightbulb text-emerald-600 text-sm mt-0.5"></i>
+                        <div>
+                            <strong>Pro Tip:</strong><br>
+                            Always shake bottled liquid fertilizer thoroughly before measuring to re-suspend settled organic micro-solids.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= PLANT GROWTH TRACKER TAB ================= -->
+        <section id="tab-tracker" class="tab-content space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-brand-900">Plant Growth Tracker</h2>
+                    <p class="text-sm text-gray-600">Monitor plant growth parameters after applying Fruitera LOF.</p>
+                </div>
+                <button onclick="openAddPlantModal()" class="bg-brand-900 hover:bg-emerald-800 text-white px-4 py-2.5 rounded-xl font-medium text-sm transition flex items-center justify-center space-x-2 shadow">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Add Plant</span>
+                </button>
+            </div>
+
+            <!-- EMPTY STATE (Default when array is empty) -->
+            <div id="tracker-empty-state" class="bg-white rounded-2xl p-10 border border-dashed border-gray-300 text-center space-y-4">
+                <div class="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto text-2xl">
+                    <i class="fa-solid fa-seedling"></i>
+                </div>
+                <div class="max-w-md mx-auto space-y-1">
+                    <h3 class="font-bold text-gray-800 text-lg">No plants added yet</h3>
+                    <p class="text-sm text-gray-500">
+                        Click <strong>"+ Add Plant"</strong> to start tracking height updates, planting dates, and fertilizer application logs!
+                    </p>
+                </div>
+                <button onclick="openAddPlantModal()" class="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs px-4 py-2 rounded-lg transition">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Add Your First Plant</span>
+                </button>
+            </div>
+
+            <!-- PLANT GRID CONTAINER (Populated via JavaScript) -->
+            <div id="plant-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 hidden">
+                <!-- Dynamic plant cards go here -->
+            </div>
+        </section>
+
+
+        <!-- ================= PROFILE / CREATE ACCOUNT TAB ================= -->
+        <section id="tab-profile" class="tab-content space-y-6">
+            <!-- DISPLAY STATE A: NO ACCOUNT (CREATE ACCOUNT FORM) -->
+            <div id="profile-unregistered" class="max-w-lg mx-auto bg-white p-6 sm:p-8 rounded-2xl border border-gray-200 shadow-sm space-y-6">
+                <div class="text-center space-y-1">
+                    <div class="w-14 h-14 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto text-2xl mb-2">
+                        <i class="fa-solid fa-user-plus"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-brand-900">Create Your Account</h2>
+                    <p class="text-xs text-gray-500">Register to save plant tracker records and customized dosages.</p>
+                </div>
+
+                <form id="create-account-form" onsubmit="handleAccountRegistration(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Full Name</label>
+                        <input type="text" id="reg-name" required placeholder="e.g. John Doe" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Email Address</label>
+                        <input type="email" id="reg-email" required placeholder="john@example.com" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Password</label>
+                        <input type="password" id="reg-password" required placeholder="••••••••" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Preferred Plant Category</label>
+                        <select id="reg-pref" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            <option value="Fruiting Vegetables (Chili, Tomato)">Fruiting Vegetables (Chili, Tomato)</option>
+                            <option value="Leafy Vegetables (Lettuce, Spinach)">Leafy Vegetables (Lettuce, Spinach)</option>
+                            <option value="Ornamental Plants">Ornamental Plants</option>
+                            <option value="Fruit Trees">Fruit Trees</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="w-full bg-brand-900 hover:bg-emerald-800 text-white font-semibold py-3 rounded-xl text-sm shadow transition">
+                        Create Account
+                    </button>
+                </form>
+            </div>
+
+            <!-- DISPLAY STATE B: REGISTERED USER PROFILE -->
+            <div id="profile-registered" class="max-w-lg mx-auto bg-white p-6 sm:p-8 rounded-2xl border border-gray-200 shadow-sm space-y-6 hidden">
+                <div class="flex items-center justify-between border-b pb-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-14 h-14 rounded-full bg-brand-900 text-white text-xl font-bold flex items-center justify-center" id="profile-avatar">
+                            JD
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-gray-800" id="profile-display-name">John Doe</h3>
+                            <p class="text-xs text-gray-500" id="profile-display-email">john@example.com</p>
+                        </div>
+                    </div>
+                    <span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full font-medium">Active Gardener</span>
+                </div>
+
+                <div class="space-y-3 text-sm">
+                    <div class="flex justify-between py-2 border-b border-gray-100">
+                        <span class="text-gray-500">Preferred Crops:</span>
+                        <span class="font-medium text-gray-800" id="profile-display-pref">Fruiting Vegetables</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-gray-100">
+                        <span class="text-gray-500">Tracked Plants:</span>
+                        <span class="font-medium text-emerald-700" id="profile-display-count">0 Plants</span>
+                    </div>
+                </div>
+
+                <div class="pt-2 flex gap-3">
+                    <button onclick="signOutAccount()" class="w-full border border-red-200 bg-red-50 hover:bg-red-100 text-red-600 font-medium py-2.5 rounded-xl text-sm transition">
+                        Sign Out / Reset
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-gray-200 py-6 text-center text-xs text-gray-500 hidden md:block">
+        <div class="max-w-5xl mx-auto px-4 flex justify-between items-center">
+            <p>© 2026 FRUITERA Project - Sustainable Waste Solutions.</p>
+            <div class="flex space-x-4">
+                <span>Organic Liquid Fertilizer</span>
+                <span>•</span>
+                <span>Zero Waste Composting</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MOBILE BOTTOM NAVIGATION -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 md:hidden z-40 px-3 py-2 flex justify-around text-xs">
+        <button onclick="switchTab('home')" id="mob-tab-home" class="mobile-nav-item flex flex-col items-center space-y-1 text-gray-500 active">
+            <i class="fa-solid fa-house text-lg"></i>
+            <span>Home</span>
+        </button>
+        <button onclick="switchTab('waste-guide')" id="mob-tab-waste-guide" class="mobile-nav-item flex flex-col items-center space-y-1 text-gray-500">
+            <i class="fa-solid fa-apple-whole text-lg"></i>
+            <span>Waste Guide</span>
+        </button>
+        <button onclick="switchTab('process-usage')" id="mob-tab-process-usage" class="mobile-nav-item flex flex-col items-center space-y-1 text-gray-500">
+            <i class="fa-solid fa-flask text-lg"></i>
+            <span>Process</span>
+        </button>
+        <button onclick="switchTab('tracker')" id="mob-tab-tracker" class="mobile-nav-item flex flex-col items-center space-y-1 text-gray-500">
+            <i class="fa-solid fa-chart-line text-lg"></i>
+            <span>Tracker</span>
+        </button>
+        <button onclick="switchTab('profile')" id="mob-tab-profile" class="mobile-nav-item flex flex-col items-center space-y-1 text-gray-500">
+            <i class="fa-regular fa-user text-lg"></i>
+            <span id="mob-account-label">Account</span>
+        </button>
+    </div>
+
+    <!-- ADD PLANT MODAL POPUP -->
+    <div id="add-plant-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white w-full max-w-md rounded-2xl p-6 space-y-4 shadow-xl">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="font-bold text-gray-800 text-lg">Add New Plant to Tracker</h3>
+                <button onclick="closeAddPlantModal()" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <form id="add-plant-form" onsubmit="handleSavePlant(event)" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">Plant Name</label>
+                    <input type="text" id="plant-name" required placeholder="e.g. Chili Plant #1, Tomato" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Plant Type</label>
+                        <select id="plant-type" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+                            <option value="Chili">Chili</option>
+                            <option value="Tomato">Tomato</option>
+                            <option value="Lettuce">Lettuce</option>
+                            <option value="Cucumber">Cucumber</option>
+                            <option value="Ornamental">Ornamental</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Initial Height (cm)</label>
+                        <input type="number" step="0.1" id="plant-height" required placeholder="e.g. 12.5" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">Date Planted</label>
+                    <input type="date" id="plant-date" required class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+                </div>
+
+                <div class="pt-3 flex space-x-3">
+                    <button type="button" onclick="closeAddPlantModal()" class="w-1/2 py-2.5 border border-gray-300 text-gray-600 rounded-xl text-sm font-medium">Cancel</button>
+                    <button type="submit" class="w-1/2 py-2.5 bg-brand-900 hover:bg-emerald-800 text-white rounded-xl text-sm font-medium shadow">Save Plant</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- UI MESSAGE NOTIFICATION CONTAINER -->
+    <div id="notification-box" class="fixed top-4 right-4 z-50 bg-brand-900 text-white px-4 py-3 rounded-xl shadow-lg text-sm flex items-center space-x-2 transition-all transform translate-y-[-100px] opacity-0 pointer-events-none">
+        <i class="fa-solid fa-circle-check text-emerald-400"></i>
+        <span id="notification-text">Notification message</span>
+    </div>
+
+    <!-- JAVASCRIPT STATE MANAGEMENT -->
+    <script>
+        // Local State
+        let userData = JSON.parse(localStorage.getItem('fruitera_user')) || null;
+        let plantsData = JSON.parse(localStorage.getItem('fruitera_plants')) || [];
+
+        window.onload = function() {
+            // Set default date input in modal to today
+            document.getElementById('plant-date').valueAsDate = new Date();
+            
+            // Initialize User & Tracker UI
+            renderUserProfile();
+            renderPlantTracker();
+        };
+
+        // Navigation Tab Switcher
+        function switchTab(tabId) {
+            // Hide all tab content
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            // Remove active classes on desktop tabs
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            // Remove active classes on mobile tabs
+            document.querySelectorAll('.mobile-nav-item').forEach(el => el.classList.remove('active'));
+
+            // Show target tab
+            const target = document.getElementById('tab-' + tabId);
+            if (target) target.classList.add('active');
+
+            // Highlight nav elements
+            const deskNav = document.getElementById('desk-tab-' + tabId);
+            if (deskNav) deskNav.classList.add('active');
+
+            const mobNav = document.getElementById('mob-tab-' + tabId);
+            if (mobNav) mobNav.classList.add('active');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Handle Registration
+        function handleAccountRegistration(event) {
+            event.preventDefault();
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+            const pref = document.getElementById('reg-pref').value;
+
+            userData = { name, email, password, pref };
+            localStorage.setItem('fruitera_user', JSON.stringify(userData));
+
+            showNotification("Account created successfully!");
+            renderUserProfile();
+        }
+
+        // Render Profile State
+        function renderUserProfile() {
+            const unregView = document.getElementById('profile-unregistered');
+            const regView = document.getElementById('profile-registered');
+            const deskLabel = document.getElementById('desk-account-label');
+            const mobLabel = document.getElementById('mob-account-label');
+
+            if (userData) {
+                unregView.classList.add('hidden');
+                regView.classList.remove('hidden');
+
+                document.getElementById('profile-display-name').innerText = userData.name;
+                document.getElementById('profile-display-email').innerText = userData.email;
+                document.getElementById('profile-display-pref').innerText = userData.pref;
+                document.getElementById('profile-display-count').innerText = plantsData.length + " Plants";
+
+                // Initials
+                const initials = userData.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0,2) || 'US';
+                document.getElementById('profile-avatar').innerText = initials;
+
+                deskLabel.innerText = "Profile";
+                mobLabel.innerText = "Profile";
+            } else {
+                unregView.classList.remove('hidden');
+                regView.classList.add('hidden');
+
+                deskLabel.innerText = "Create Account";
+                mobLabel.innerText = "Account";
+            }
+        }
+
+        function signOutAccount() {
+            if (confirm("Are you sure you want to sign out? Your stored local profile will be reset.")) {
+                userData = null;
+                localStorage.removeItem('fruitera_user');
+                renderUserProfile();
+                showNotification("Signed out successfully.");
+            }
+        }
+
+        // Plant Tracker Modal Controls
+        function openAddPlantModal() {
+            document.getElementById('add-plant-modal').classList.remove('hidden');
+        }
+
+        function closeAddPlantModal() {
+            document.getElementById('add-plant-modal').classList.add('hidden');
+            document.getElementById('add-plant-form').reset();
+            document.getElementById('plant-date').valueAsDate = new Date();
+        }
+
+        // Save Plant Entry
+        function handleSavePlant(event) {
+            event.preventDefault();
+            const name = document.getElementById('plant-name').value;
+            const type = document.getElementById('plant-type').value;
+            const height = parseFloat(document.getElementById('plant-height').value);
+            const date = document.getElementById('plant-date').value;
+
+            const newPlant = {
+                id: Date.now(),
+                name,
+                type,
+                height,
+                date
+            };
+
+            plantsData.push(newPlant);
+            localStorage.setItem('fruitera_plants', JSON.stringify(plantsData));
+
+            closeAddPlantModal();
+            renderPlantTracker();
+            renderUserProfile();
+            showNotification(`Added ${name} to tracker!`);
+        }
+
+        // Delete Plant Entry
+        function deletePlant(id) {
+            plantsData = plantsData.filter(p => p.id !== id);
+            localStorage.setItem('fruitera_plants', JSON.stringify(plantsData));
+            renderPlantTracker();
+            renderUserProfile();
+            showNotification("Plant entry deleted.");
+        }
+
+        // Render Plant Cards / Empty State
+        function renderPlantTracker() {
+            const emptyState = document.getElementById('tracker-empty-state');
+            const grid = document.getElementById('plant-grid');
+
+            if (plantsData.length === 0) {
+                emptyState.classList.remove('hidden');
+                grid.classList.add('hidden');
+                grid.innerHTML = '';
+            } else {
+                emptyState.classList.add('hidden');
+                grid.classList.remove('hidden');
+
+                grid.innerHTML = plantsData.map(plant => `
+                    <div class="bg-white rounded-2xl p-5 border border-gray-200 shadow-sm relative flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded-full">${plant.type}</span>
+                                <button onclick="deletePlant(${plant.id})" class="text-gray-400 hover:text-red-500 text-sm p-1" title="Delete Entry">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                            <h4 class="font-bold text-gray-800 text-lg mb-1">${plant.name}</h4>
+                            <div class="text-xs text-gray-500 space-y-1 my-3">
+                                <p><i class="fa-regular fa-calendar mr-1"></i> Planted: <strong>${plant.date}</strong></p>
+                                <p><i class="fa-solid fa-ruler-vertical mr-1"></i> Current Height: <strong class="text-emerald-700 text-sm">${plant.height} cm</strong></p>
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">
+                            <span>Status: Active LOF</span>
+                            <span class="text-emerald-600 font-semibold">Healthy 🌱</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Notification Helper
+        function showNotification(msg) {
+            const box = document.getElementById('notification-box');
+            document.getElementById('notification-text').innerText = msg;
+
+            box.classList.remove('translate-y-[-100px]', 'opacity-0', 'pointer-events-none');
+            box.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                box.classList.remove('translate-y-0', 'opacity-100');
+                box.classList.add('translate-y-[-100px]', 'opacity-0', 'pointer-events-none');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
